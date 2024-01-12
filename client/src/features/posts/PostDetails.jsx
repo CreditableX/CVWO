@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import { API_URL } from "../../constants";
+import { Card } from "@mui/material";
+import CardContent from '@mui/material/CardContent';
 
 function PostDetails () {
     const [post, setPost] = useState(null);

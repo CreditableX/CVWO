@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link} from "react-router-dom"
+import Button from '@mui/material/Button';
 
 function NavBar() {
     return (
         <nav>
-            <Link to="/">Post List</Link>
+            <Button variant="outlined"><Link to="/">Post List</Link></Button>
             {" | "}
-            <Link to="/new">New Post</Link>
+            <Button variant="outlined"><Link to="/new">New Post</Link></Button>
         </nav>
     )
 }
