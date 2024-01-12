@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # API routes shoul-d be in /api/v1
-  namespace :API do
+  namespace :api do
     namespace :v1 do
       resources :posts
     end
