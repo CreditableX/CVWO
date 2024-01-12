@@ -3,10 +3,12 @@ import {useParams, useNavigate, Link} from "react-router-dom";
 import { API_URL } from "../../constants";
 import { Card } from "@mui/material";
 import CardContent from '@mui/material/CardContent';
+import PostEditForm from "./PostEditForm";
 
 function PostDetails () {
     const [post, setPost] = useState(null);
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCurrentPost = async () => {
@@ -28,6 +30,24 @@ function PostDetails () {
 
     }, [id]);
 
+    const deletePost = async () => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                navigate("/");
+            }
+            else {
+                throw response;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
     if (!post) return <h2> Loading... </h2>;
     
     return (
@@ -35,6 +55,10 @@ function PostDetails () {
             <h2>{post.title}</h2>
             <p>{post.body}</p>
             <Link to="/">Back to posts</Link>
+            {" | "}
+            <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+            {" | "}
+            <button onClick={deletePost}>Delete</button>
         </div>
     );
 }
