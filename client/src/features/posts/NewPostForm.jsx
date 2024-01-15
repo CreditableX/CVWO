@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {API_URL} from "../../constants";
+import { createPost } from '../../services/postService';
 import { Button } from '@mui/material';
 
 function NewPostForm() {
@@ -13,24 +13,15 @@ function NewPostForm() {
 
         const postData = {title, body};
 
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(postData),
-        });
-
-        if (response.ok) {
-            const {id} = await response.json();
-            navigate(`/posts/${id}`);
-
+        try {
+            const response = await createPost(postData);
+            navigate(`/posts/${response.id}`);
         }
-
-        else {
-            console.log("an error");
+        catch (e) {
+            console.error("Failed to create post", e);
         }
-    };
+    }
+
 
     return (
         <div>
