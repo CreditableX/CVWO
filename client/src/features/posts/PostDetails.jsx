@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
-import { fetchPost, deletePost as deletePostService } from "../../services/postService";
+import { fetchPost, deletePost} from "../../services/postService";
 import { Card } from "@mui/material";
 import CardContent from '@mui/material/CardContent';
 import PostEditForm from "./PostEditForm";
@@ -25,9 +25,9 @@ function PostDetails () {
 
     }, [id]);
 
-    const deletePost = async () => {
+    const deletePostHandler = async () => {
         try {
-            await deletePostService(post.id);
+            await deletePost(post.id);
             navigate("/");
         }
         catch (e) {
@@ -45,7 +45,7 @@ function PostDetails () {
             {" | "}
             <Link to={`/posts/${post.id}/edit`}>Edit</Link>
             {" | "}
-            <button onClick={deletePost}>Delete</button>
+            <button onClick={deletePostHandler}>Delete</button>
         </div>
     );
 }
