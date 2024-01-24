@@ -6,12 +6,13 @@ import { Button } from '@mui/material';
 function NewPostForm() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
+    const [flair, setFlair] = useState("discussion");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const postData = {title, body};
+        const postData = {title, body, flair};
 
         try {
             const response = await createPost(postData);
@@ -21,6 +22,11 @@ function NewPostForm() {
             console.error("Failed to create post", e);
         }
     }
+
+    const handleChange = (e) => {
+        setFlair(e.target.value);
+        console.log(flair); // Check the value in the console
+      };
 
 
     return (
@@ -45,6 +51,14 @@ function NewPostForm() {
                     onChange={(e) => setBody(e.target.value)}
                     required
                     />
+                </div>
+                <div>
+                <label htmlFor='flairInput'>Flair:</label>
+                <select id='flairInput' name='flairInput' onChange={handleChange} defaultValue="discussion">
+                    <option value="discussion">Discussion</option>
+                    <option value="meme">Meme</option>
+                    <option value="question">Question</option>
+                </select>
                 </div>
                 <div>
                     <Button type='submit' variant="contained">Create Post</Button>

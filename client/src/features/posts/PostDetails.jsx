@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import { fetchPost, deletePost} from "../../services/postService";
-import { Card } from "@mui/material";
-import CardContent from '@mui/material/CardContent';
-import PostEditForm from "./PostEditForm";
 
 function PostDetails () {
     const [post, setPost] = useState(null);
@@ -41,6 +38,8 @@ function PostDetails () {
         <div>
             <h2>{post.title}</h2>
             <p>{post.body}</p>
+            <Link to= {`/posts/${post.id}/comments`}>Add comment</Link>
+            {" | "}
             <Link to="/">Back to posts</Link>
             {" | "}
             <Link to={`/posts/${post.id}/edit`}>Edit</Link>

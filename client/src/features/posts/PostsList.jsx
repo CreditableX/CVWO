@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {API_URL} from "../../constants";
 import { Link } from 'react-router-dom';
-import { fetchAllPosts, deletePost} from '../../services/postService';
+import { fetchAllPosts, deletePost, fetchFilteredPosts} from '../../services/postService';
 
 function PostsList() {
     const [posts, setPosts] = useState([]);
     const [, setLoading] = useState(true);
     const [, setError] = useState(null);
+    const [filter, setFilter] = useState('all');
 
     useEffect(() => {
         async function loadPosts() {
             try {
-                const data = await fetchAllPosts();
+                const data = await fetchFilteredPosts(filter);
                 setPosts(data);
                 setLoading(false);
             }
@@ -23,7 +23,7 @@ function PostsList() {
             }
         }
         loadPosts();
-    }, [])
+    }, [filter])
     
     const deletePostHandler = async (id) => {
         try {
@@ -35,15 +35,30 @@ function PostsList() {
         }
 
     };
-
+      
     return (
+
         <div>
+        {/* Filter dropdown */}
+        <label htmlFor="filter">Filter by: </label>
+        <select
+            id="filter"
+            value={filter}
+            onChange={(e) => {
+                setFilter(e.target.value);
+            }}
+        >
+                <option value="all">All</option>
+                <option value="discussion">Discussion</option>
+                <option value="meme">Meme</option>
+                <option value="question">Question</option>
+        </select>
             {posts.map((post) => (
                 <div key={post.id} className='post-container'>
                     <h2>
                         <Link to={`/posts/${post.id}`} className="post-title">
-                            Post #{post.id}: {post.title}
-                        </Link>
+                        Post #{post.id}: {post.title} Flair: {post.flair}
+                        </Link> 
                         {" | "}
                         <Link to={`/posts/${post.id}/edit`}>Edit</Link>
                     </h2>
