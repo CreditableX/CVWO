@@ -1,5 +1,6 @@
 import { post } from "jquery";
 import { API_URL } from "../constants";
+import getJWT from "../util/getJWT";
 
 async function fetchComment(postid, commentid) {
     const response = await fetch(`${API_URL}/${postid}/comments/${commentid}`);
@@ -19,6 +20,9 @@ async function fetchPostComments(postid) {
 
 async function deleteComment(postid, commentid) {
     const response = await fetch (`${API_URL}/${postid}/comments/${commentid}`, {
+        headers: {
+            Authorization: `Bearer ${getJWT()}`,
+        },
         method: "DELETE",
     });
 
@@ -39,6 +43,7 @@ async function createComment(commentid, commentData) {
         method: 'POST',
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(commentData),
     })
@@ -53,6 +58,7 @@ async function updateComment(postid, commentid, commentData) {
         method: "PUT",
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(commentData),
     })

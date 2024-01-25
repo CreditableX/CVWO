@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchPostComments, deleteComment} from '../../services/commentService';
+import getUserId from "../../util/getUserId";
+
 
 function CommentsList() {
     const [comments, setComments] = useState([]);
     const [, setLoading] = useState(true);
     const [, setError] = useState(null);
     const {id} = useParams();
+    const user_id = getUserId();
 
     useEffect(() => {
         async function loadPostComments() {
@@ -42,11 +45,11 @@ function CommentsList() {
                 <div key={comment.id} className='comment-container'>
                     <h2>
                         Comment #{comment.id}: {comment.body}
-                        {" | "}
-                        <Link to={`/posts/${id}/comments/${comment.id}/edit`}>Edit</Link>
+                        {user_id === comment.user_id && user_id !== null && " | "}
+                        {user_id === comment.user_id && user_id !== null && <Link to={`/posts/${id}/comments/${comment.id}/edit`}>Edit</Link>}
                     </h2>
                     <div className='post-links'>
-                        <button onClick={() => deleteCommentHandler(id, comment.id)}>Delete comment #{comment.id}</button>
+                    {user_id === comment.user_id && <button onClick={() => deleteCommentHandler(id, comment.id)}>Delete comment #{comment.id}</button>}
                     </div>
                 </div>
             ))}

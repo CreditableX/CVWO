@@ -18,10 +18,10 @@ class Api::V1::UsersController < ApplicationController
     private
 
     def user_params 
-        params.permit(:username, :password, :auth)
+        params.permit(:username, :password)
     end
 
     def handle_invalid_record(e)
-            render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     end
 end

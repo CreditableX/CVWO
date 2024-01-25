@@ -23,21 +23,28 @@ function LoginUI() {
     }
 
     async function createUser(userData) {
-        const response = await fetch("http://localhost:3000/api/v1/login", {
-            method: 'POST',
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(userData),
-        })
-        if (!response.ok) {
-            console.log(`error: ${response.message}`);
+        try {
+            const response = await fetch("http://localhost:3000/api/v1/login", {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to login: ${response.statusText}`);
+            }
+    
+            const responseData = await response.json();
+            document.cookie = `user_id=${responseData.user_id}; Secure`;
+            document.cookie = `JWT=${responseData.token}; Secure`;
+            window.location.href = "/";
+            return responseData;
+        } catch (error) {
+            console.error("Error logging in:", error);
+            throw error;
         }
-        const responses = await response.json();
-        document.cookie = `user_id=${responses.user_id}; Secure`;
-        document.cookie = `JWT=${responses.token}; Secure`;
-        window.location.href="/";
-        return responses;
     }
 
     return (
@@ -62,7 +69,6 @@ function LoginUI() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     />
-
                 </div>
                 <div>
                     <Button type='submit' variant="contained">Login</Button>

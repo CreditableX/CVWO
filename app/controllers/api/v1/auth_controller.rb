@@ -19,7 +19,7 @@ class Api::V1::AuthController < ApplicationController
     private 
 
     def login_params 
-        params.require(:auth).permit(:username, :password)
+        params.permit(:username, :password)
     end
 
     def handle_record_not_found(e)

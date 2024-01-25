@@ -3,16 +3,18 @@ import {useNavigate, useParams} from 'react-router-dom';
 import { createComment } from '../../services/commentService';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import getUserId from '../../util/getUserId';
 
 function NewCommentForm() {
     const [body, setBody] = useState("");
     const {id} = useParams();
     const navigate = useNavigate();
+    const user_id = getUserId();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const commentData = {body};
+        const commentData = {body, user_id};
 
         try {
             await createComment(id, commentData); 
