@@ -1,4 +1,5 @@
 import { API_URL } from "../constants";
+import getJWT from "../util/getJWT";
 
 async function fetchAllPosts() {
     const response = await fetch(`${API_URL}`);
@@ -38,6 +39,7 @@ async function createPost(postData) {
         method: 'POST',
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(postData),
     })
@@ -53,6 +55,7 @@ async function updatePost(id, postData) {
         method: "PUT",
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(postData),
     })
@@ -64,6 +67,9 @@ async function updatePost(id, postData) {
 
 async function deletePost(id) {
     const response = await fetch (`${API_URL}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getJWT()}`,
+        },
         method: "DELETE",
     });
 

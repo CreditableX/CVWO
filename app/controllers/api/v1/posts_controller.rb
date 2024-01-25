@@ -1,4 +1,5 @@
 class Api::V1::PostsController < ApplicationController
+  skip_before_action :authorized, only: [:index, :show]
   before_action :set_post, only: %i[ show update destroy ]
 
   # GET /posts
@@ -51,6 +52,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body, :flair)
+      params.require(:post).permit(:title, :body, :flair, :user_id)
     end
 end

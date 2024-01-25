@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchPost, updatePost} from "../../services/postService";
+import getJWT from "../../util/getJWT";
+import getUserId from "../../util/getUserId";
 
 function PostEditForm() {
     const [post, setPost] = useState(null);
     const{id} = useParams();
+    const user_id = getUserId();
     const[, setLoading] = useState(true);
     const[, setError] = useState(null);
     const navigate = useNavigate();

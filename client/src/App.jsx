@@ -8,7 +8,6 @@ function App() {
     <Router>
       <div className="app">
         <h1> React Blog </h1>
-        <p> Find this app layout in client/src/App.jsx </p>
         <NavBar />
         <AppRoutes />
       </div>

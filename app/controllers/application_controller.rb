@@ -1,23 +1,33 @@
 class ApplicationController < ActionController::API
-    helper_method :login!, :logged_in?, :current_user, :authorized_user?, :logout!, :set_user
+    before_action :authorized
+
+    def encode_token(payload)
+        JWT.encode(payload, 'secretkey111') 
+    end
+
+    def decoded_token
+        header = request.headers['Authorization']
+        if header
+            token = header.split(" ")[1]
+            begin
+                JWT.decode(token, 'secretkey111')
+            rescue JWT::DecodeError
+                nil
+            end
+        end
+    end
     
-    def login!
-        session[:user_id] = @user.id
+    def current_user 
+        if decoded_token
+            user_id = decoded_token[0]['user_id']
+            @user = User.find_by(id: user_id)
+        end
     end
-    def logged_in?
-        !!session[:user_id]
+
+    def authorized
+        unless !!current_user
+        render json: { message: 'Please log in' }, status: :unauthorized
+        end
     end
-    def current_user
-        @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    end
-    def authorized_user?
-        @user == current_user
-    end
-    def logout!
-        session.clear
-    end
-    def set_user
-        @user = User.find_by(id: session[:user_id])
-    end
-    end
+
 end

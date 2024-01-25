@@ -2,17 +2,20 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import { createPost } from '../../services/postService';
 import { Button } from '@mui/material';
+import getUserId from '../../util/getUserId';
 
 function NewPostForm() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [flair, setFlair] = useState("discussion");
     const navigate = useNavigate();
+    const user_id = getUserId();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const postData = {title, body, flair};
+        const postData = {title, body, flair, user_id};
+        
 
         try {
             const response = await createPost(postData);

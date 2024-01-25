@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import { fetchPost, deletePost} from "../../services/postService";
+import getJWT from "../../util/getJWT";
+import getUserId from "../../util/getUserId";
 
 function PostDetails () {
     const [post, setPost] = useState(null);
     const {id} = useParams();
     const navigate = useNavigate();
+    const user_id = getUserId();
 
     useEffect(() => {
         const fetchCurrentPost = async () => {
@@ -41,10 +44,10 @@ function PostDetails () {
             <Link to= {`/posts/${post.id}/comments`}>Add comment</Link>
             {" | "}
             <Link to="/">Back to posts</Link>
-            {" | "}
-            <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-            {" | "}
-            <button onClick={deletePostHandler}>Delete</button>
+            {user_id === post.user_id && " | "}
+            {user_id === post.user_id && (<Link to={`/posts/${post.id}/edit`}>Edit</Link>)}
+            {user_id === post.user_id && " | "}
+            {user_id === post.user_id && (<button onClick={deletePostHandler}>Delete</button>)}
         </div>
     );
 }

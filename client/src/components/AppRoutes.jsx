@@ -8,6 +8,9 @@ import PostEditForm from '../features/posts/PostEditForm';
 import NewCommentForm from '../features/comments/NewCommentForm';
 import CommentsList from '../features/comments/CommentsList';
 import CommentEditForm from '../features/comments/CommentEditForm';
+import SignupUI from '../features/SignupUI';
+import LoginUI from '../features/LoginUI';
+import LogoutUI from '../features/LogoutUI';
 
 function AppRoutes() {
     return (
@@ -18,6 +21,9 @@ function AppRoutes() {
             <Route path='/new' element={<NewPostForm />} />
             <Route path='/posts/:id/comments' element={<NewCommentForm />} />
             <Route path='/posts/:postid/comments/:commentid/edit' element={<CommentEditForm />} />
+            <Route path='/signup' element={<SignupUI />} />
+            <Route path='/login' element={<LoginUI />} />
+            <Route path='/logout' element={<LogoutUI />} />
         </Routes>
     )
 }

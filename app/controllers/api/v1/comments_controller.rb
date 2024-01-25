@@ -1,4 +1,5 @@
 class Api::V1::CommentsController < ApplicationController
+  skip_before_action :authorized, only: [:index, :show]
   before_action :set_post
   before_action :set_comment, only: %i[ show update destroy ]
 
@@ -59,6 +60,6 @@ class Api::V1::CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.require(:comment).permit(:body, :post_id)
+      params.require(:comment).permit(:body, :post_id, :user_id)
     end
 end
