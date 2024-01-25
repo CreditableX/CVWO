@@ -7,7 +7,7 @@ function App() {
   return (  
     <Router>
       <div className="app">
-        <h1> React Blog </h1>
+        <h1> GameForum </h1>
         <NavBar />
         <AppRoutes />
       </div>
