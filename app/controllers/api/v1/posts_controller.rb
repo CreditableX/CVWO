@@ -1,9 +1,14 @@
 class Api::V1::PostsController < ApplicationController
+  skip_before_action :authorized, only: [:index, :show]
   before_action :set_post, only: %i[ show update destroy ]
 
   # GET /posts
   def index
-    @posts = Post.order(created_at: :desc)
+    if params[:flair].present?
+      @posts = Post.where(flair: params[:flair]).order(created_at: :desc)
+    else
+      @posts = Post.order(created_at: :desc)
+    end
 
     render json: @posts
   end
@@ -47,6 +52,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body)
+      params.require(:post).permit(:title, :body, :flair, :user_id)
     end
 end

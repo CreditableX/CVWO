@@ -1,4 +1,5 @@
 import { API_URL } from "../constants";
+import getJWT from "../util/getJWT";
 
 async function fetchAllPosts() {
     const response = await fetch(`${API_URL}`);
@@ -6,6 +7,23 @@ async function fetchAllPosts() {
         throw new Error(response.statusText);
     }
     return response.json();
+}
+
+async function fetchFilteredPosts(flair) {
+    if (flair !== 'all'){
+        const response = await fetch(`${API_URL}?flair=${flair}`);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response.json();
+    }
+    else {
+        const response = await fetch(`${API_URL}`);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response.json();
+    }
 }
 
 async function fetchPost(id) {
@@ -21,6 +39,7 @@ async function createPost(postData) {
         method: 'POST',
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(postData),
     })
@@ -30,11 +49,13 @@ async function createPost(postData) {
     return response.json();
 }
 
+
 async function updatePost(id, postData) {
     const response = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${getJWT()}`,
         },
         body: JSON.stringify(postData),
     })
@@ -43,8 +64,12 @@ async function updatePost(id, postData) {
     }
     return response.json();
 }
+
 async function deletePost(id) {
     const response = await fetch (`${API_URL}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getJWT()}`,
+        },
         method: "DELETE",
     });
 
@@ -59,4 +84,4 @@ async function deletePost(id) {
     return response.json();
 }
 
-export {createPost, deletePost, fetchAllPosts, fetchPost, updatePost};
+export {createPost, deletePost, fetchAllPosts, fetchPost, updatePost, fetchFilteredPosts};

@@ -1,9 +1,15 @@
 Rails.application.routes.draw do
 
-  # API routes shoul-d be in /api/v1
+  # API routes should be in /api/v1
   namespace :api do
     namespace :v1 do
-      resources :posts
+      resources :posts do
+        resources :comments
+      end
+
+      post "/users/signup", to: "users#create"
+      get "/users/me", to: "users#me"
+      post "/login", to: "auth#login"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
