@@ -19,13 +19,14 @@ npm run dev
  
 Testing the forum app
 Several posts, comments and users have been created to test the forum functionality out. 
-Username	Type	Password
-john	regular	    123
-123	    regular	    123
+Username: john Password: 123
+Username: 123 Password: 123
+
 
 User functionalities are as follows:
 If not logged in, one can only view comments and posts.
 Logged in users can create posts and comments and can edit or delete only their own posts and comments.
+
 Common Errors
 A server is already running when running the command rails s
 -	Check cvwo/tmp/pids and delete the file server.pid
